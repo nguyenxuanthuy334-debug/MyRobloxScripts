@@ -1,9 +1,9 @@
--- File: Games/BloxFruits_Ultimate.luau (Bản Full Không Bỏ Tính Năng - Tích Hợp Bảo Mật & Hệ Thống REDz Hub)
+-- File: Games/BloxFruits_Ultimate.luau (Bản Full Tiếng Việt 100% - Tích Hợp Bảo Mật & Hệ Thống BL HUB)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bracket-v/bracket-v/main/library.lua"))()
 
 -- ==================== HỆ THỐNG BẢO MẬT & BYPASS ANTI-CHEAT ====================
 local function InitializeSecurity()
-    print("[BL HUB] Dang khoi chay module bao mat...")
+    print("[BL HUB] Đang khởi chạy module bảo mật...")
     
     local gmt = getrawmetatable(game)
     setreadonly(gmt, false)
@@ -24,7 +24,7 @@ local function InitializeSecurity()
             end
         end
         if method == "Kick" or method == "kick" then
-            warn("[BL HUB Security] Da chan lenh Kick tu Server!")
+            warn("[BL HUB Bảo Mật] Đã chặn lệnh Kick từ Server!")
             return nil
         end
         return oldNamecall(self, ...)
@@ -35,12 +35,12 @@ local function InitializeSecurity()
         local chat = game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Chat")
         if chat then chat.Enabled = true end
     end
-    print("[BL HUB] Kich hoat Anti-Ban thanh cong!")
+    print("[BL HUB] Kích hoạt Anti-Ban thành công!")
 end
 
 InitializeSecurity()
 
--- ==================== HỘP NGÒI NỔ BẢO MẬT (ANTI-COPY LẺ) ====================
+-- ==================== CẤU HÌNH HỆ THỐNG BẢO MẬT (ANTI-COPY LẺ) ====================
 getgenv().BL_System_Config = {
     Verified = true,
     AuthToken = "BLHUB_SECURE_TOKEN_9988",
@@ -56,7 +56,7 @@ local HubName = "BL HUB"
 
 local function ActivateTrap()
     while true do
-        local crash = "BL HUB Protection Activated! Khong the chay rieng le!"
+        local crash = "BL HUB Bảo Vệ Đã Kích Hoạt! Không thể chạy riêng lẻ!"
         print(crash)
     end
 end
@@ -102,7 +102,7 @@ KeySection:CreateButton({
             KeyEntered = true
             Library:Notify({
                 Title = "Chính Xác!",
-                Content = "Đang tải " .. HubName .. "...",
+                Content = "Đang tải hệ thống " .. HubName .. "...",
                 Time = 3
             })
             task.wait(1)
@@ -111,7 +111,7 @@ KeySection:CreateButton({
         else
             Library:Notify({
                 Title = "Thất Bại!",
-                Content = "Key sai! Vui lòng truy cập Fnote lấy lại key.",
+                Content = "Key không đúng! Vui lòng truy cập trang web để lấy key.",
                 Time = 3
             })
         end
@@ -124,13 +124,13 @@ KeySection:CreateButton({
         setclipboard(Link4M_URL) 
         Library:Notify({
             Title = "Đã Copy Link!",
-            Content = "Dán link vào trình duyệt để lấy Key.",
+            Content = "Hãy dán link vào trình duyệt để vượt link lấy Key.",
             Time = 5
         })
     end
 })
 
--- ==================== MENU CHÍNH BL HUB ULTIMATE ====================
+-- ==================== MENU CHÍNH BL HUB ULTIMATE VIỆT HÓA ====================
 function LoadMainScripts()
     if HubName ~= "BL HUB" then
         ActivateTrap()
@@ -138,25 +138,25 @@ function LoadMainScripts()
     end
 
     local Window = Library:CreateWindow({
-        Name = HubName .. " (ULTIMATE VERSION)", 
+        Name = HubName .. " (PHIÊN BẢN ULTIMATE)", 
         MinSize = Vector2.new(550, 450),
         ToggleKey = Enum.KeyCode.RightControl
     })
 
-    -- Khởi tạo cấu hình hệ tộc & hệ thống cũ + mới (GIỮ NGUYÊN 100%)
+    -- Khởi tạo cấu hình hệ tộc & hệ thống
     _G.Config = {
         -- Farm Level & Boss & Mastery & Materials
         AutoFarmLevel = false,
         AutoFarmBoss = false,
-        TargetBoss = "All",
+        TargetBoss = "Tất cả",
         AutoFarmMastery = false,
-        MasteryWeapon = "Melee",
+        MasteryWeapon = "Cận chiến",
         MasteryHPPercent = 25,
-        AutoFarmChest = false, -- TỰ ĐỘNG LƯỢM RƯƠNG
+        AutoFarmChest = false,
         AutoFarmMaterials = false,
         SelectedMaterial = "Cocoa",
         BringMobs = false,
-        SelectedWeapon = "Melee",
+        SelectedWeapon = "Cận chiến",
 
         -- Combat Features
         FastAttack = false,
@@ -167,12 +167,12 @@ function LoadMainScripts()
         -- Support & Explorer
         FruitNotifier = false,
         AutoBuyFruit = false,
-        SelectedFruitBuy = "Kitsune-Kitsune",
+        SelectedFruitBuy = "Kitsune",
         ESP_Players = false,
         ESP_Chests = false,
         ESP_Fruits = false,
         AutoStats = false,
-        StatsTarget = "Melee",
+        StatsTarget = "Cận chiến",
 
         -- Special & Others
         AutoSeaEvent = false,
@@ -184,7 +184,7 @@ function LoadMainScripts()
     }
 
     _G.RaceSettings = {
-        SelectedRace = "Human",
+        SelectedRace = "Người (Human)",
         AutoV2 = false,
         AutoV3 = false,
         AutoV4 = false,
@@ -194,19 +194,19 @@ function LoadMainScripts()
     }
 
     _G.MeleeSettings = {
-        SelectedMelee = "Sanguine Art",
+        SelectedMelee = "Nghệ thuật Sanguine",
         AutoGetMelee = false
     }
 
     _G.FruitSettings = {
-        SelectedFruit = "Kitsune-Kitsune",
+        SelectedFruit = "Kitsune",
         AutoLoot = false,
         AutoBuySelected = false
     }
     
     _G.RaidSettings = {
         Enable = false,
-        SelectedChip = "Flame"
+        SelectedChip = "Lửa (Flame)"
     }
 
     -- Hàm di chuyển mượt
@@ -219,9 +219,9 @@ function LoadMainScripts()
         end
     end
 
-    -- ==================== CÁC CHỨC NĂNG CHẠY NỀN VÀ KHỞI TẠO TÍNH NĂNG ====================
+    -- ==================== CÁC CHỨC NĂNG TỰ ĐỘNG CHẠY NỀN ====================
 
-    -- 1. Auto Nhặt Rương (Auto Farm Chest - Đã tối ưu)
+    -- 1. Tự động lượm rương (Auto Farm Chest)
     task.spawn(function()
         while task.wait(0.1) do
             if _G.Config.AutoFarmChest then
@@ -240,7 +240,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 2. Auto Farm Level
+    -- 2. Tự động cày cấp (Auto Farm Level)
     task.spawn(function()
         while task.wait() do
             if _G.Config.AutoFarmLevel then
@@ -262,7 +262,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 3. Auto Farm Boss
+    -- 3. Tự động săn Boss
     task.spawn(function()
         while task.wait(0.5) do
             if _G.Config.AutoFarmBoss then
@@ -270,7 +270,7 @@ function LoadMainScripts()
                     local myChar = game.Players.LocalPlayer.Character
                     for _, enemy in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                         if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health > 0 then
-                            if _G.Config.TargetBoss == "All" or enemy.Name == _G.Config.TargetBoss then
+                            if _G.Config.TargetBoss == "Tất cả" or enemy.Name == _G.Config.TargetBoss then
                                 SecureTween(enemy.HumanoidRootPart.CFrame * CFrame.new(0, 6, 0))
                             end
                         end
@@ -280,7 +280,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 4. Auto Farm Mastery
+    -- 4. Tự động cày thông thạo (Auto Farm Mastery)
     task.spawn(function()
         while task.wait(0.1) do
             if _G.Config.AutoFarmMastery then
@@ -302,7 +302,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 5. Auto Farm Materials
+    -- 5. Tự động thu thập nguyên liệu
     task.spawn(function()
         while task.wait(0.5) do
             if _G.Config.AutoFarmMaterials then
@@ -320,7 +320,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 6. Gom Quái (Bring Mobs)
+    -- 6. Gom quái (Bring Mobs)
     task.spawn(function()
         while task.wait() do
             if _G.Config.BringMobs and _G.Config.AutoFarmLevel then
@@ -343,7 +343,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 7. Fast Attack & Auto Click
+    -- 7. Đánh nhanh & Tự động click (Fast Attack)
     task.spawn(function()
         local delayTime = (getgenv().BL_System_Config and getgenv().BL_System_Config.AttackDelay) or 0.01
         while task.wait(delayTime) do
@@ -352,7 +352,7 @@ function LoadMainScripts()
                     local player = game.Players.LocalPlayer
                     local character = player.Character
                     for _, tool in pairs(player.Backpack:GetChildren()) do
-                        if tool:IsA("Tool") and (tool.ToolTip == _G.Config.SelectedWeapon or _G.Config.SelectedWeapon == "Melee" and tool.ToolTip == "Blox Fruit") then
+                        if tool:IsA("Tool") and (tool.ToolTip == _G.Config.SelectedWeapon or _G.Config.SelectedWeapon == "Cận chiến" and tool.ToolTip == "Blox Fruit") then
                             character.Humanoid:EquipTool(tool)
                         end
                     end
@@ -364,7 +364,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 8. Auto Parry/Dodge
+    -- 8. Tự động đỡ đòn/Né chiêu (Auto Parry)
     task.spawn(function()
         while task.wait(0.2) do
             if _G.Config.AutoParryDodge then
@@ -383,7 +383,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 9. Kill Aura
+    -- 9. Vòng tròn sát thương (Kill Aura)
     task.spawn(function()
         while task.wait(0.1) do
             if _G.Config.KillAura then
@@ -403,7 +403,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 10. Fruit Notifier & Auto Buy Fruit
+    -- 10. Thông báo & Canh mua Trái Ác Quỷ
     task.spawn(function()
         while task.wait(2) do
             if _G.Config.FruitNotifier then
@@ -412,7 +412,7 @@ function LoadMainScripts()
                         if obj:IsA("Tool") and string.find(obj.Name, "Fruit") then
                             Library:Notify({
                                 Title = "PHÁT HIỆN TRÁI ÁC QUỶ!",
-                                Content = "Trái: " .. obj.Name .. " xuất hiện!",
+                                Content = "Trái: " .. obj.Name .. " xuất hiện trên Map!",
                                 Time = 5
                             })
                         end
@@ -428,7 +428,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 11. ESP System
+    -- 11. Hệ thống nhìn xuyên tường (ESP System)
     local espObjects = {}
     local function CreateESP(part, text, color)
         if not part then return end
@@ -480,7 +480,7 @@ function LoadMainScripts()
                 if _G.Config.ESP_Chests then
                     for _, chest in pairs(game:GetService("Workspace"):GetChildren()) do
                         if string.find(chest.Name, "Chest") and chest:IsA("Part") then
-                            CreateESP(chest, "Chest (Tiền)", Color3.fromRGB(255, 215, 0))
+                            CreateESP(chest, "Rương Tiền", Color3.fromRGB(255, 215, 0))
                         end
                     end
                 end
@@ -495,7 +495,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 12. Auto Stats
+    -- 12. Tự cộng điểm tiềm năng (Auto Stats)
     task.spawn(function()
         while task.wait(1) do
             if _G.Config.AutoStats then
@@ -509,7 +509,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 13. Auto Sea Event
+    -- 13. Tự động săn Sea Event
     task.spawn(function()
         while task.wait(2) do
             if _G.Config.AutoSeaEvent then
@@ -527,7 +527,7 @@ function LoadMainScripts()
         end
     end)
 
-    -- 14. Infinite Energy
+    -- 14. Năng lượng vô hạn (Infinite Energy)
     task.spawn(function()
         while task.wait(0.5) do
             if _G.Config.InfiniteEnergy then
@@ -541,26 +541,26 @@ function LoadMainScripts()
         end
     end)
 
-    -- 15. Auto Get Melee (HỌC HỆ VÕ GỐC)
+    -- 15. Tự động lấy hệ võ (Auto Get Melee)
     local function AutoGetMelee()
         task.spawn(function()
             while _G.MeleeSettings.AutoGetMelee do
                 task.wait(1)
                 pcall(function()
                     local choice = _G.MeleeSettings.SelectedMelee
-                    if choice == "Dragon Breath (Võ Rồng V1)" then
+                    if choice == "Hơi thở của Rồng (Võ Rồng V1)" then
                         SecureTween(CFrame.new(-1250, 15, -4520)) 
                         task.wait(1)
                         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonBreath", "Buy")
-                    elseif choice == "Dragon Talon (Võ Rồng V2)" then
+                    elseif choice == "Móng vuốt Rồng (Võ Rồng V2)" then
                         SecureTween(CFrame.new(-12543, 332, -9850)) 
                         task.wait(1)
                         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyDragonTalon")
-                    elseif choice == "Sanguine Art" then
+                    elseif choice == "Nghệ thuật Sanguine" then
                         SecureTween(CFrame.new(-4640, 15, -4520)) 
                         task.wait(1)
                         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySanguineArt")
-                    elseif choice == "Godhuman" then
+                    elseif choice == "Godhuman (Siêu nhân tối thượng)" then
                         SecureTween(CFrame.new(-12503, 331, -9871)) 
                         task.wait(1)
                         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyGodhuman")
@@ -574,7 +574,7 @@ function LoadMainScripts()
         end)
     end
 
-    -- 16. Auto Raid
+    -- 16. Tự động đi Phụ bản (Auto Raid)
     local function AutoRaid()
         task.spawn(function()
             while _G.RaidSettings.Enable do
@@ -589,7 +589,7 @@ function LoadMainScripts()
         end)
     end
 
-    -- 17. Auto Haki V1 & V2 Quest
+    -- 17. Tự động làm nhiệm vụ Haki Quan Sát V1 & V2
     local function AutoGetObsV1()
         task.spawn(function()
             while _G.Config.AutoHakiV1 do
@@ -665,7 +665,7 @@ function LoadMainScripts()
     local function AutoGetGhoul() task.spawn(function() while _G.RaceSettings.AutoGetGhoul do task.wait(1) end end) end
     local function AutoGetCyborg() task.spawn(function() while _G.RaceSettings.AutoGetCyborg do task.wait(1) end end) end
 
-    -- Noclip khi bật Farm
+    -- Noclip xuyên tường khi bật Farm
     game:GetService("RunService").Stepped:Connect(function()
         if _G.Config.AutoFarmLevel or _G.Config.AutoFarmMastery or _G.Config.AutoFarmBoss then
             pcall(function()
@@ -679,52 +679,52 @@ function LoadMainScripts()
         end
     end)
 
-    -- ==================== THIẾT LẬP CÁC TAB GIAO DIỆN (UI) ====================
+    -- ==================== THIẾT LẬP CÁC TAB GIAO DIỆN (UI TRANG CHỦ) ====================
     
-    -- TAB 1: AUTO FARM
+    -- TAB 1: AUTO FARM (TỰ ĐỘNG CÀY)
     local FarmTab = Window:CreateTab("Tự Động Farm")
     local FarmSec = FarmTab:CreateSection("Cày Cấp & Tiền")
     FarmSec:CreateToggle({
-        Name = "Auto Farm Level (Tự Động Cày Cấp)",
+        Name = "Tự Động Cày Cấp (Auto Farm Level)",
         Value = false,
         Callback = function(v) _G.Config.AutoFarmLevel = v end
     })
     FarmSec:CreateToggle({
-        Name = "Bring Mobs (Gom Quái)",
+        Name = "Gom Quái Lại Một Chỗ (Bring Mobs)",
         Value = false,
         Callback = function(v) _G.Config.BringMobs = v end
     })
     FarmSec:CreateToggle({
-        Name = "Auto Farm Boss (Săn Boss Lớn)",
+        Name = "Tự Động Săn Boss",
         Value = false,
         Callback = function(v) _G.Config.AutoFarmBoss = v end
     })
     FarmSec:CreateDropdown({
-        Name = "Chọn Boss Săn",
-        List = {"All", "Saber Expert", "Tide Keeper", "Stone"},
+        Name = "Chọn Mục Tiêu Boss",
+        List = {"Tất cả", "Saber Expert", "Tide Keeper", "Stone"},
         Function = function(s) _G.Config.TargetBoss = s end
     })
     
-    local MasterySec = FarmTab:CreateSection("Cày Mastery (Thông Thạo)")
+    local MasterySec = FarmTab:CreateSection("Cày Điểm Thông Thạo (Mastery)")
     MasterySec:CreateToggle({
-        Name = "Auto Farm Mastery",
+        Name = "Tự Động Cày Mastery",
         Value = false,
         Callback = function(v) _G.Config.AutoFarmMastery = v end
     })
     MasterySec:CreateDropdown({
-        Name = "Vũ khí cày Mastery",
-        List = {"Melee", "Sword", "Devil Fruit"},
+        Name = "Vũ khí cần cày Mastery",
+        List = {"Cận chiến", "Kiếm", "Trái Ác Quỷ"},
         Function = function(s) _G.Config.MasteryWeapon = s end
     })
 
-    local ChestSec = FarmTab:CreateSection("Rương & Nguyên Liệu")
+    local ChestSec = FarmTab:CreateSection("Nhặt Rương & Nguyên Liệu")
     ChestSec:CreateToggle({
-        Name = "Auto Farm Chest (Tự Động Lượm Rương)",
+        Name = "Tự Động Lượm Rương (Auto Farm Chest)",
         Value = false,
         Callback = function(v) _G.Config.AutoFarmChest = v end
     })
     ChestSec:CreateToggle({
-        Name = "Auto Farm Nguyên Liệu",
+        Name = "Tự Động Thu Thập Nguyên Liệu",
         Value = false,
         Callback = function(v) _G.Config.AutoFarmMaterials = v end
     })
@@ -734,88 +734,88 @@ function LoadMainScripts()
         Function = function(s) _G.Config.SelectedMaterial = s end
     })
 
-    -- TAB 2: COMBAT
+    -- TAB 2: COMBAT (HỖ TRỢ CHIẾN ĐẤU)
     local CombatTab = Window:CreateTab("Chiến Đấu (Combat)")
-    local CombatSec = CombatTab:CreateSection("Trợ Thủ PvP/PvE")
+    local CombatSec = CombatTab:CreateSection("Hỗ Trợ PvP & PvE")
     CombatSec:CreateToggle({
-        Name = "Fast Attack (Tấn Công Siêu Tốc)",
+        Name = "Đánh Nhanh (Fast Attack)",
         Value = false,
         Callback = function(v) _G.Config.FastAttack = v end
     })
     CombatSec:CreateDropdown({
-        Name = "Chọn Vũ Khí Đánh",
-        List = {"Melee", "Sword", "Devil Fruit"},
+        Name = "Chọn Vũ Khí Tấn Công",
+        List = {"Cận chiến", "Kiếm", "Trái Ác Quỷ"},
         Function = function(s) _G.Config.SelectedWeapon = s end
     })
     CombatSec:CreateToggle({
-        Name = "Auto Parry & Dodge (Né Đòn Hoàn Hảo)",
+        Name = "Tự Động Đỡ & Né Chiêu (Auto Parry)",
         Value = false,
         Callback = function(v) _G.Config.AutoParryDodge = v end
     })
     CombatSec:CreateToggle({
-        Name = "Kill Aura (Tự Động Đánh Quanh Thân)",
+        Name = "Tự Động Tấn Công Xung Quanh (Kill Aura)",
         Value = false,
         Callback = function(v) _G.Config.KillAura = v end
     })
 
     -- TAB 3: HỖ TRỢ & ESP
     local SupportTab = Window:CreateTab("Hỗ Trợ & ESP")
-    local FruitSec = SupportTab:CreateSection("Trái Ác Quỷ")
+    local FruitSec = SupportTab:CreateSection("Săn Trái Ác Quỷ")
     FruitSec:CreateToggle({
-        Name = "Fruit Notifier (Báo Trái Hiện Bản Đồ)",
+        Name = "Thông Báo Khi Có Trái Rơi (Fruit Notifier)",
         Value = false,
         Callback = function(v) _G.Config.FruitNotifier = v end
     })
     FruitSec:CreateToggle({
-        Name = "Auto Buy Fruit (Canh Mua Trái)",
+        Name = "Tự Động Mua Trái Khi Có Bán (Auto Buy)",
         Value = false,
         Callback = function(v) _G.Config.AutoBuyFruit = v end
     })
     FruitSec:CreateDropdown({
-        Name = "Chọn Trái Cần Mua",
+        Name = "Chọn Trái Cần Canh Mua",
         List = {"Kitsune-Kitsune", "Dough-Dough", "Leopard-Leopard", "Buddha-Buddha"},
         Function = function(s) _G.Config.SelectedFruitBuy = s end
     })
 
     local ESPSec = SupportTab:CreateSection("Hệ Thống ESP (Nhìn xuyên tường)")
     ESPSec:CreateToggle({
-        Name = "ESP Players (Hiển Thị Người Chơi)",
+        Name = "Nhìn xuyên Người Chơi (ESP Players)",
         Value = false,
         Callback = function(v) _G.Config.ESP_Players = v end
     })
     ESPSec:CreateToggle({
-        Name = "ESP Chests (Định Vị Rương)",
+        Name = "Nhìn xuyên Rương Tiền (ESP Chests)",
         Value = false,
         Callback = function(v) _G.Config.ESP_Chests = v end
     })
     ESPSec:CreateToggle({
-        Name = "ESP Fruits (Tìm Trái Rơi Rớt)",
+        Name = "Nhìn xuyên Trái Ác Quỷ (ESP Fruits)",
         Value = false,
         Callback = function(v) _G.Config.ESP_Fruits = v end
     })
 
-    local StatsSec = SupportTab:CreateSection("Cộng Stats Tự Động")
+    local StatsSec = SupportTab:CreateSection("Tự Cộng Điểm Tiềm Năng")
     StatsSec:CreateToggle({
-        Name = "Auto Stats",
+        Name = "Kích hoạt tự cộng Stats",
         Value = false,
         Callback = function(v) _G.Config.AutoStats = v end
     })
     StatsSec:CreateDropdown({
-        Name = "Chọn Chỉ Số Cộng",
+        Name = "Chọn chỉ số muốn cộng",
         List = {"Melee", "Defense", "Sword", "Blox Fruit"},
         Function = function(s) _G.Config.StatsTarget = s end
     })
 
-    -- TAB 4: RAID & BOSS
-    local RaidTab = Window:CreateTab("Raid & Boss")
-    local RaidSec = RaidTab:CreateSection("Tự Động Đi Raid")
+    -- TAB 4: RAID (PHỤ BẢN)
+    local RaidTab = Window:CreateTab("Đi Raid")
+    local RaidSec = RaidTab:CreateSection("Tự Động Vượt Ải Phụ Bản")
     RaidSec:CreateDropdown({
-        Name = "Chọn Loại Chip Raid",
+        Name = "Chọn Chip Raid",
         List = {"Flame", "Ice", "Quake", "Light", "Dark", "Dough"},
         Function = function(Selected) _G.RaidSettings.SelectedChip = Selected end
     })
     RaidSec:CreateToggle({
-        Name = "Bật Auto Raid (Tự mua chip & Clear)",
+        Name = "Bật Auto Raid (Tự mua chip & clear)",
         Value = false,
         Callback = function(Value)
             _G.RaidSettings.Enable = Value
@@ -827,12 +827,12 @@ function LoadMainScripts()
     local MeleeTab = Window:CreateTab("Võ Thuật (Melee)")
     local MeleeSection = MeleeTab:CreateSection("Tự Động Học Võ")
     MeleeSection:CreateDropdown({
-        Name = "Chọn Loại Võ Cần Học",
+        Name = "Chọn Võ Muốn Học",
         List = {
-            "Sanguine Art", 
-            "Godhuman", 
-            "Dragon Breath (Võ Rồng V1)", 
-            "Dragon Talon (Võ Rồng V2)", 
+            "Nghệ thuật Sanguine", 
+            "Godhuman (Siêu nhân tối thượng)", 
+            "Hơi thở của Rồng (Võ Rồng V1)", 
+            "Móng vuốt Rồng (Võ Rồng V2)", 
             "Superhuman"
         },
         Function = function(Selected) _G.MeleeSettings.SelectedMelee = Selected end
@@ -846,12 +846,12 @@ function LoadMainScripts()
         end
     })
 
-    -- TAB 6: NHIỆM VỤ HAKI V1 & V2
+    -- TAB 6: NHIỆM VỤ HAKI
     local HakiQuestTab = Window:CreateTab("Nhiệm Vụ Haki")
-    local ObsV1Section = HakiQuestTab:CreateSection("Haki Quan Sát V1 (Sea 1)")
-    local ObsV2Section = HakiQuestTab:CreateSection("Haki Quan Sát V2 (Sea 3)")
+    local ObsV1Section = HakiQuestTab:CreateSection("Haki Quan Sát V1 (Tân thủ - Sea 1)")
+    local ObsV2Section = HakiQuestTab:CreateSection("Haki Quan Sát V2 (Nâng cao - Sea 3)")
     ObsV1Section:CreateToggle({
-        Name = "Auto Làm Quest & Mua Haki V1",
+        Name = "Tự Động Làm Quest & Mua Haki V1",
         Value = false,
         Callback = function(v) 
             _G.Config.AutoHakiV1 = v 
@@ -859,7 +859,7 @@ function LoadMainScripts()
         end
     })
     ObsV2Section:CreateToggle({
-        Name = "Auto Làm Quest & Mua Haki V2",
+        Name = "Tự Động Làm Quest & Mua Haki V2",
         Value = false,
         Callback = function(v) 
             _G.Config.AutoHakiV2 = v 
@@ -867,17 +867,25 @@ function LoadMainScripts()
         end
     })
 
-    -- TAB 7: CÀI ĐẶT TỘC (RACE SYSTEM - GIỮ NGUYÊN HOÀN TOÀN)
+    -- TAB 7: CÀI ĐẶT TỘC (RACE SYSTEM - VIỆT HÓA HOÀN TOÀN)
     local RaceTab = Window:CreateTab("Cài Đặt Tộc (Race)")
-    local SelectRaceSection = RaceTab:CreateSection("Chọn Tộc Thức Tỉnh V3/V4")
+    local SelectRaceSection = RaceTab:CreateSection("Chọn Tộc Để Thức Tỉnh V3/V4")
     SelectRaceSection:CreateDropdown({
         Name = "Tộc Đang Sử Dụng",
-        List = {"Human", "Mink", "Fishman", "Skypiea", "Ghoul", "Cyborg", "Dragon"},
+        List = {
+            "Người (Human)", 
+            "Thỏ (Mink)", 
+            "Người cá (Fishman)", 
+            "Thiên sứ (Skypiea)", 
+            "Quỷ (Ghoul)", 
+            "Người máy (Cyborg)", 
+            "Rồng (Dragon)"
+        },
         Function = function(Selected) _G.RaceSettings.SelectedRace = Selected end
     })
-    local GetRaceSection = RaceTab:CreateSection("Tự Động Lấy Tộc (V1)")
+    local GetRaceSection = RaceTab:CreateSection("Tự Động Lấy Tộc Cơ Bản (V1)")
     GetRaceSection:CreateToggle({
-        Name = "Auto Lấy Tộc Ghoul V1",
+        Name = "Tự Động Lấy Tộc Quỷ (Ghoul) V1",
         Value = false,
         Callback = function(Value)
             _G.RaceSettings.AutoGetGhoul = Value
@@ -885,7 +893,7 @@ function LoadMainScripts()
         end
     })
     GetRaceSection:CreateToggle({
-        Name = "Auto Lấy Tộc Cyborg V1",
+        Name = "Tự Động Lấy Tộc Người Máy (Cyborg) V1",
         Value = false,
         Callback = function(Value)
             _G.RaceSettings.AutoGetCyborg = Value
@@ -893,16 +901,16 @@ function LoadMainScripts()
         end
     })
     GetRaceSection:CreateToggle({
-        Name = "Auto Lấy Tộc Rồng (Dragon)",
+        Name = "Tự Động Lấy Tộc Rồng (Dragon)",
         Value = false,
         Callback = function(Value)
             _G.RaceSettings.AutoGetDragon = Value
             if Value then AutoGetDragon() end
         end
     })
-    local UpgradeRaceSection = RaceTab:CreateSection("Thức Tỉnh Tộc (V2 -> V4)")
+    local UpgradeRaceSection = RaceTab:CreateSection("Nâng Cấp Tộc (V2 -> V4)")
     UpgradeRaceSection:CreateToggle({
-        Name = "Auto Làm Nhiệm Vụ Tộc V2",
+        Name = "Tự Động Làm Nhiệm Vụ Tộc V2",
         Value = false,
         Callback = function(Value)
             _G.RaceSettings.AutoV2 = Value
@@ -910,7 +918,7 @@ function LoadMainScripts()
         end
     })
     UpgradeRaceSection:CreateToggle({
-        Name = "Auto Làm Nhiệm Vụ Tộc V3",
+        Name = "Tự Động Làm Nhiệm Vụ Tộc V3",
         Value = false,
         Callback = function(Value)
             _G.RaceSettings.AutoV3 = Value
@@ -918,7 +926,7 @@ function LoadMainScripts()
         end
     })
     UpgradeRaceSection:CreateToggle({
-        Name = "Auto Thức Tỉnh Tộc V4 (Full Trial)",
+        Name = "Tự Động Thức Tỉnh Tộc V4 (Full Trial)",
         Value = false,
         Callback = function(Value)
             _G.RaceSettings.AutoV4 = Value
@@ -926,29 +934,29 @@ function LoadMainScripts()
         end
     })
 
-    -- TAB PHỤ KHÁC: TELEPORT, SHOP, ĐẶC BIỆT
+    -- TAB PHỤ KHÁC: DỊCH CHUYỂN, CỬA HÀNG, ĐẶC BIỆT
     local TeleportTab = Window:CreateTab("Dịch Chuyển")
-    local IslandSection = TeleportTab:CreateSection("Chọn Đảo")
+    local IslandSection = TeleportTab:CreateSection("Chọn Đảo Di Chuyển")
     local ShopTab = Window:CreateTab("Cửa Hàng")
-    local ShopSection = ShopTab:CreateSection("NPC Shop")
+    local ShopSection = ShopTab:CreateSection("Các NPC Mua Bán")
 
     local SpecialTab = Window:CreateTab("Đặc Biệt (Special)")
-    local SeaSec = SpecialTab:CreateSection("Sự Kiện Biển (Sea Event)")
+    local SeaSec = SpecialTab:CreateSection("Sự Kiện Trên Biển (Sea Event)")
     SeaSec:CreateToggle({
-        Name = "Auto Sea Event (Săn Thuyền & Sea Beast)",
+        Name = "Tự Động Săn Thuyền & Sea Beast",
         Value = false,
         Callback = function(v) _G.Config.AutoSeaEvent = v end
     })
-    local EnergySec = SpecialTab:CreateSection("Năng Lượng Vô Hạn")
+    local EnergySec = SpecialTab:CreateSection("Trạng Thái Đặc Biệt")
     EnergySec:CreateToggle({
-        Name = "Infinite Energy (Năng Lượng Vô Hạn)",
+        Name = "Năng Lượng Vô Hạn (Infinite Energy)",
         Value = false,
         Callback = function(v) _G.Config.InfiniteEnergy = v end
     })
 
     Library:Notify({
-        Title = HubName .. " ĐÃ KHỞI CHẠY",
-        Content = "Đã tích hợp đầy đủ 100% tính năng cũ và bổ sung tính năng mới thành công!",
+        Title = HubName .. " KHỞI CHẠY THÀNH CÔNG",
+        Content = "Giao diện Tiếng Việt đã được tải xong. Chúc bạn chơi game vui vẻ!",
         Time = 5
     })
 end
