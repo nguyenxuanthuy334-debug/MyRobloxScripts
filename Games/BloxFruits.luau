@@ -1,45 +1,47 @@
--- File: Games/BloxFruits.luau (Bản Bảo Mật Chống Copy & Đổi Tên Thương Hiệu)
+-- File: Games/BloxFruits.luau (Bản Bảo Mật Chống Copy Lẻ Chức Năng & Đổi Tên)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bracket-v/bracket-v/main/library.lua"))()
 
--- ==================== HỆ THỐNG BẪY BẢO MẬT (ANTI-TAMPER) ====================
+-- ==================== HỘP NGÒI NỔ BẢO MẬT (ANTI-COPY LẺ) ====================
+getgenv().BL_System_Config = {
+    Verified = true,
+    AuthToken = "BLHUB_SECURE_TOKEN_9988", -- Khóa xác thực ngầm
+    MobRange = 350,                        -- Khoảng cách gom quái
+    AttackDelay = 0.01,                    -- Tốc độ đánh nhanh
+    HakiDelay = 1,                         -- Tốc độ bật Haki
+}
 
+-- ==================== HỆ THỐNG BẪY BẢO MẬT (ANTI-TAMPER) ====================
 local CorrectKey = "BLHUB-9988" 
 local Link4M_URL = "https://fnote.net/notes/dxNLB7"
-local HubName = "BL HUB" -- Tên thương hiệu bắt buộc phải giữ nguyên
+local HubName = "BL HUB" 
 
--- Hàm trừng phạt: Gây lag cực nặng và văng game (Crash)
+-- Hàm trừng phạt (Crash game)
 local function ActivateTrap()
     while true do
-        -- Vòng lặp vô hạn không có thời gian chờ (task.wait) sẽ khiến CPU quá tải 100% và crash game ngay lập tức
-        local crash = "BL HUB Anti-Cheat Kích Hoạt!"
+        local crash = "BL HUB Protection Activated!"
         print(crash)
     end
 end
 
--- Bẫy lớp 1: Kiểm tra nguồn tải hợp lệ (Chỉ cho phép tải từ tài khoản của bạn)
-local Success, SourceCode = pcall(function()
-    return game:HttpGet("https://raw.githubusercontent.com/nguyenxuanthuy334-debug/MyRobloxScripts/main/main.luau")
-end)
-
--- Nếu không kết nối được hoặc nguồn tải bị thay đổi không còn chứa tên tài khoản của bạn
-if not Success or not string.find(SourceCode, "nguyenxuanthuy334") then
+-- Bẫy lớp 1: Bảo vệ tên thương hiệu
+if HubName ~= "BL HUB" then
     ActivateTrap()
     return
 end
 
--- Bẫy lớp 2: Kiểm tra nếu tên thương hiệu bị đổi
-if HubName ~= "BL HUB" then
+-- Bẫy lớp 2: Kiểm tra chạy lậu không qua file main.luau
+local LoaderCheck = getgenv().BLHUB_LOADED
+if not LoaderCheck then
     ActivateTrap()
     return
 end
 
 
 -- ==================== KHỞI CHẠY HỆ THỐNG KEY (BL HUB) ====================
-
 local KeyEntered = false
 
 local KeyWindow = Library:CreateWindow({
-    Name = "HỆ THỐNG KEY - " .. HubName, -- Sử dụng biến HubName để kiểm tra
+    Name = "HỆ THỐNG KEY - " .. HubName,
     MinSize = Vector2.new(400, 250),
     ToggleKey = Enum.KeyCode.RightControl
 })
@@ -60,7 +62,6 @@ KeySection:CreateTextBox({
 KeySection:CreateButton({
     Name = "Xác Nhận Key (Submit)",
     Callback = function()
-        -- Bẫy lớp 2 phụ: Kiểm tra lại tên thương hiệu lần nữa trước khi mở khóa
         if HubName ~= "BL HUB" then
             ActivateTrap()
             return
@@ -101,7 +102,6 @@ KeySection:CreateButton({
 
 -- ==================== MENU CHÍNH BL HUB (Chỉ hiện khi gõ đúng Key) ====================
 function LoadMainScripts()
-    -- Bẫy lớp 2 tối hậu: Kiểm tra tên thương hiệu lần cuối trước khi vẽ giao diện chính
     if HubName ~= "BL HUB" then
         ActivateTrap()
         return
@@ -119,12 +119,16 @@ function LoadMainScripts()
     local AutoObservationHaki = false
     local AntiObservationHaki = false
 
-    -- [Giữ nguyên toàn bộ phần logic Auto Farm, Haki, Noclip và Gom quái của bạn ở đây...]
-    -- (Để tránh dài dòng mình đã rút gọn đoạn hiển thị này, bạn chỉ cần giữ nguyên phần code cũ phía dưới giống hệt phiên bản trước nhé!)
-
     -- 1. Auto Bật Haki Quan Sát liên tục
     task.spawn(function()
-        while task.wait(1) do
+        local waitTime = (getgenv().BL_System_Config and getgenv().BL_System_Config.HakiDelay) or 1
+        while task.wait(waitTime) do
+            -- Kiểm tra bẫy liên kết ngầm
+            if not getgenv().BL_System_Config or getgenv().BL_System_Config.AuthToken ~= "BLHUB_SECURE_TOKEN_9988" then
+                ActivateTrap()
+                return
+            end
+
             if AutoObservationHaki then
                 pcall(function()
                     local Player = game.Players.LocalPlayer
@@ -142,6 +146,12 @@ function LoadMainScripts()
     -- 2. "Tàng hình" Haki Quan Sát
     task.spawn(function()
         while task.wait(0.1) do
+            -- Kiểm tra bẫy liên kết ngầm
+            if not getgenv().BL_System_Config or getgenv().BL_System_Config.Verified ~= true then
+                ActivateTrap()
+                return
+            end
+
             if AntiObservationHaki then
                 pcall(function()
                     local Character = game.Players.LocalPlayer.Character
@@ -177,17 +187,24 @@ function LoadMainScripts()
         end)
     end)
 
-    -- 4. Gom Quái Siêu Tốc (Bring Mobs Fast)
+    -- 4. Gom Quái Siêu Tốc (Bring Mobs Fast - ĐÃ GÀI BẪY)
     task.spawn(function()
         while task.wait() do
-            if BringMobs and AutoFarmLevel then
+            -- BẪY: Nếu copy lẻ không có hệ thống Config của BL HUB -> Sập game
+            if not getgenv().BL_System_Config or getgenv().BL_System_Config.AuthToken ~= "BLHUB_SECURE_TOKEN_9988" then
+                ActivateTrap()
+                return
+            end
+
+            if BringMobs and AutoFarmLevel and getgenv().BL_System_Config.Verified then
                 pcall(function()
                     local MyCharacter = game.Players.LocalPlayer.Character
                     if MyCharacter and MyCharacter:FindFirstChild("HumanoidRootPart") then
                         local MyPos = MyCharacter.HumanoidRootPart.Position
                         for _, Enemy in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
                             if Enemy:FindFirstChild("HumanoidRootPart") and Enemy:FindFirstChild("Humanoid") and Enemy.Humanoid.Health > 0 then
-                                if (Enemy.HumanoidRootPart.Position - MyPos).Magnitude <= 350 then
+                                -- Sử dụng biến MobRange từ hộp bảo mật ngầm
+                                if (Enemy.HumanoidRootPart.Position - MyPos).Magnitude <= getgenv().BL_System_Config.MobRange then
                                     Enemy.HumanoidRootPart.CFrame = MyCharacter.HumanoidRootPart.CFrame * CFrame.new(0, 0, -5)
                                     Enemy.HumanoidRootPart.CanCollide = false
                                     Enemy.Humanoid.Active = false
@@ -200,9 +217,16 @@ function LoadMainScripts()
         end
     end)
 
-    -- 5. Tấn Công Siêu Tốc (Fast Attack)
+    -- 5. Tấn Công Siêu Tốc (Fast Attack - ĐÃ GÀI BẪY)
     task.spawn(function()
-        while task.wait(0.01) do
+        local delayTime = (getgenv().BL_System_Config and getgenv().BL_System_Config.AttackDelay) or 0.01
+        while task.wait(delayTime) do
+            -- BẪY: Nếu copy lẻ không có hệ thống Config -> Sập game
+            if not getgenv().BL_System_Config or getgenv().BL_System_Config.Verified ~= true then
+                ActivateTrap()
+                return
+            end
+
             if AutoFarmLevel then
                 pcall(function()
                     local Player = game.Players.LocalPlayer
@@ -243,6 +267,7 @@ function LoadMainScripts()
         end
     end)
 
+    -- ==================== CẤU HÌNH GIAO DIỆN TAB ====================
     local FarmTab = Window:CreateTab("Tự Động Farm")
     local MainSection = FarmTab:CreateSection("Farm Level")
     local MethodSection = FarmTab:CreateSection("Cài Đặt Farm")
@@ -297,7 +322,7 @@ function LoadMainScripts()
 
     Library:Notify({
         Title = HubName .. " ĐÃ KHỞI CHẠY",
-        Content = "Chào mừng bạn đến với phiên bản bảo mật!",
+        Content = "Chào mừng bạn đến với phiên bản siêu bảo mật!",
         Time = 5
     })
 end
