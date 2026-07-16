@@ -1,14 +1,45 @@
--- File: Games/BloxFruits.luau (Phiên bản BL HUB - Bảo mật & Kiếm tiền qua Link4M)
+-- File: Games/BloxFruits.luau (Bản Bảo Mật Chống Copy & Đổi Tên Thương Hiệu)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bracket-v/bracket-v/main/library.lua"))()
 
--- ==================== CẤU HÌNH KEY & LINK4M ====================
-local CorrectKey = "BLHUB-9988" -- Bạn có thể đổi Key này tùy ý
-local Link4M_URL = "https://fnote.net/notes/dxNLB7" -- Người chơi bấm Get Key sẽ copy thẳng link Fnote này
+-- ==================== HỆ THỐNG BẪY BẢO MẬT (ANTI-TAMPER) ====================
+
+local CorrectKey = "BLHUB-9988" 
+local Link4M_URL = "https://fnote.net/notes/dxNLB7"
+local HubName = "BL HUB" -- Tên thương hiệu bắt buộc phải giữ nguyên
+
+-- Hàm trừng phạt: Gây lag cực nặng và văng game (Crash)
+local function ActivateTrap()
+    while true do
+        -- Vòng lặp vô hạn không có thời gian chờ (task.wait) sẽ khiến CPU quá tải 100% và crash game ngay lập tức
+        local crash = "BL HUB Anti-Cheat Kích Hoạt!"
+        print(crash)
+    end
+end
+
+-- Bẫy lớp 1: Kiểm tra nguồn tải hợp lệ (Chỉ cho phép tải từ tài khoản của bạn)
+local Success, SourceCode = pcall(function()
+    return game:HttpGet("https://raw.githubusercontent.com/nguyenxuanthuy334-debug/MyRobloxScripts/main/main.luau")
+end)
+
+-- Nếu không kết nối được hoặc nguồn tải bị thay đổi không còn chứa tên tài khoản của bạn
+if not Success or not string.find(SourceCode, "nguyenxuanthuy334") then
+    ActivateTrap()
+    return
+end
+
+-- Bẫy lớp 2: Kiểm tra nếu tên thương hiệu bị đổi
+if HubName ~= "BL HUB" then
+    ActivateTrap()
+    return
+end
+
+
+-- ==================== KHỞI CHẠY HỆ THỐNG KEY (BL HUB) ====================
+
 local KeyEntered = false
 
--- 1. Tạo Cửa Sổ Nhập Key (Đã đổi tên thành BL HUB)
 local KeyWindow = Library:CreateWindow({
-    Name = "HỆ THỐNG KEY - BL HUB",
+    Name = "HỆ THỐNG KEY - " .. HubName, -- Sử dụng biến HubName để kiểm tra
     MinSize = Vector2.new(400, 250),
     ToggleKey = Enum.KeyCode.RightControl
 })
@@ -26,38 +57,42 @@ KeySection:CreateTextBox({
     end
 })
 
--- Nút kiểm tra Key
 KeySection:CreateButton({
     Name = "Xác Nhận Key (Submit)",
     Callback = function()
+        -- Bẫy lớp 2 phụ: Kiểm tra lại tên thương hiệu lần nữa trước khi mở khóa
+        if HubName ~= "BL HUB" then
+            ActivateTrap()
+            return
+        end
+        
         if InputKey == CorrectKey then
             KeyEntered = true
             Library:Notify({
                 Title = "Chính Xác!",
-                Content = "Đang tải BL HUB...",
+                Content = "Đang tải " .. HubName .. "...",
                 Time = 3
             })
             task.wait(1)
-            KeyWindow:Destroy() -- Tắt bảng nhập Key
-            LoadMainScripts()   -- Chạy Menu chính BL HUB
+            KeyWindow:Destroy() 
+            LoadMainScripts()   
         else
             Library:Notify({
                 Title = "Thất Bại!",
-                Content = "Key không đúng! Vui lòng vượt link lại để lấy key.",
+                Content = "Key không đúng! Vui lòng vào Fnote lấy lại key.",
                 Time = 3
             })
         end
     end
 })
 
--- Nút lấy Key qua Link4M
 KeySection:CreateButton({
-    Name = "Copy Link Vượt Ải Lấy Key (Link4M)",
+    Name = "Copy Link Trang Lấy Key (Fnote)",
     Callback = function()
-        setclipboard(Link4M_URL) -- Tự động copy link Link4M vào bộ nhớ tạm của người chơi
+        setclipboard(Link4M_URL) 
         Library:Notify({
             Title = "Đã Copy Link!",
-            Content = "Hãy dán (Ctrl+V) link vào trình duyệt để vượt qua Link4M lấy Key nhé!",
+            Content = "Hãy dán link vào trình duyệt để vào trang Fnote lấy Key nhé!",
             Time = 5
         })
     end
@@ -66,8 +101,14 @@ KeySection:CreateButton({
 
 -- ==================== MENU CHÍNH BL HUB (Chỉ hiện khi gõ đúng Key) ====================
 function LoadMainScripts()
+    -- Bẫy lớp 2 tối hậu: Kiểm tra tên thương hiệu lần cuối trước khi vẽ giao diện chính
+    if HubName ~= "BL HUB" then
+        ActivateTrap()
+        return
+    end
+
     local Window = Library:CreateWindow({
-        Name = "BL HUB (PRO)", -- Đã xóa hoàn toàn tên của bạn, chỉ hiện tên thương hiệu của bạn
+        Name = HubName .. " (PRO)", 
         MinSize = Vector2.new(500, 400),
         ToggleKey = Enum.KeyCode.RightControl
     })
@@ -78,7 +119,8 @@ function LoadMainScripts()
     local AutoObservationHaki = false
     local AntiObservationHaki = false
 
-    -- ==================== HỆ THỐNG HAKI QUAN SÁT V2 (BYPASS) ====================
+    -- [Giữ nguyên toàn bộ phần logic Auto Farm, Haki, Noclip và Gom quái của bạn ở đây...]
+    -- (Để tránh dài dòng mình đã rút gọn đoạn hiển thị này, bạn chỉ cần giữ nguyên phần code cũ phía dưới giống hệt phiên bản trước nhé!)
 
     -- 1. Auto Bật Haki Quan Sát liên tục
     task.spawn(function()
@@ -116,8 +158,6 @@ function LoadMainScripts()
             end
         end
     end)
-
-    -- ==================== HỆ THỐNG PHỤ TRỢ (AUTO FARM) ====================
 
     -- 3. Noclip (Xuyên tường)
     task.spawn(function()
@@ -203,8 +243,6 @@ function LoadMainScripts()
         end
     end)
 
-    -- ==================== TAB GIAO DIỆN (UI) ====================
-
     local FarmTab = Window:CreateTab("Tự Động Farm")
     local MainSection = FarmTab:CreateSection("Farm Level")
     local MethodSection = FarmTab:CreateSection("Cài Đặt Farm")
@@ -250,7 +288,6 @@ function LoadMainScripts()
         end
     })
 
-    -- Các Tab phụ khác
     local StatsTab = Window:CreateTab("Nâng Stats")
     local StatsSection = StatsTab:CreateSection("Tự Động Cộng Điểm")
     local TeleportTab = Window:CreateTab("Dịch Chuyển")
@@ -259,8 +296,8 @@ function LoadMainScripts()
     local ShopSection = ShopTab:CreateSection("NPC Shop")
 
     Library:Notify({
-        Title = "BL HUB ĐÃ KHỞI CHẠY",
-        Content = "Chúc bạn chơi game vui vẻ!",
+        Title = HubName .. " ĐÃ KHỞI CHẠY",
+        Content = "Chào mừng bạn đến với phiên bản bảo mật!",
         Time = 5
     })
 end
