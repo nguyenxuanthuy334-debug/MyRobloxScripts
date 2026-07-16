@@ -1,62 +1,42 @@
--- Định nghĩa môi trường chạy (tránh lỗi trên các Executor khác nhau)
-local _ENV = (getgenv or getrenv or getfenv)()
+-- File: main.luau (Bản bảo mật giấu tên tác giả)
 
--- 1. Khai báo danh sách Game hỗ trợ (Chỉ giữ lại Blox Fruit)
-local MyScripts = {
-    {
-        GameId = 994732206, -- ID của game Blox Fruit
-        FileName = "BloxFruits.luau"
+-- Chuỗi liên kết đã được mã hóa không chứa chữ "nguyenxuanthuy334"
+local b = {104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,110,103,117,121,101,110,120,117,97,110,116,104,117,121,51,51,52,45,100,101,98,117,103,47,77,121,82,111,98,108,111,120,83,99,114,105,112,116,115,47,109,97,105,110,47,71,97,109,101,115,47}
+local function getDecryptedPath()
+    local s = ""
+    for i = 1, #b do
+        s = s .. string.char(b[i])
+    end
+    return s
+end
+
+local GameList = {
+    [994732206] = {
+        Name = "Blox Fruits",
+        ScriptFile = "BloxFruits.luau"
     }
 }
 
--- 2. Đường dẫn đến kho GitHub của bạn (Đã điền sẵn tài khoản của bạn)
-local GithubUser = "nguyenxuanthuy334-debug" 
-local RepoName = "MyRobloxScripts"       
-local BaseUrl = string.format("https://raw.githubusercontent.com/%s/%s/main/", GithubUser, RepoName)
+local CurrentGameID = game.PlaceId
+local MatchGame = GameList[CurrentGameID]
 
--- 3. Hàm tải code từ GitHub
-local function FetchScript(FileName)
-    local Success, Content = pcall(function()
-        return game:HttpGet(BaseUrl .. "Games/" .. FileName)
+if MatchGame then
+    -- Tải code từ thư mục Games trên GitHub (Đường dẫn đã mã hóa bảo mật)
+    local Success, RawCode = pcall(function()
+        return game:HttpGet(getDecryptedPath() .. MatchGame.ScriptFile)
     end)
     
-    if Success then
-        return Content
+    if Success and RawCode then
+        local LoadedFunction, ErrorMsg = loadstring(RawCode)
+        if LoadedFunction then
+            LoadedFunction() -- Chạy BL HUB
+        else
+            warn("Lỗi biên dịch: " .. tostring(ErrorMsg))
+        end
     else
-        warn("Không thể tải file: " .. FileName)
-        return nil
+        warn("Không thể kết nối đến máy chủ lưu trữ BL HUB!")
     end
+else
+    -- Không hiển thị tên của bạn khi không hỗ trợ game
+    print("BL HUB hien tai chua ho tro tua game nay!")
 end
-
--- 4. Hàm kiểm tra xem người chơi có đang ở đúng game hỗ trợ không
-local function CheckAndRun()
-    local CurrentPlaceId = game.PlaceId
-    local CurrentGameId = game.GameId
-
-    for _, ScriptInfo in ipairs(MyScripts) do
-        local IsMatch = false
-        
-        if ScriptInfo.PlacesIds and table.find(ScriptInfo.PlacesIds, CurrentPlaceId) then
-            IsMatch = true
-        elseif ScriptInfo.GameId and ScriptInfo.GameId == CurrentGameId then
-            IsMatch = true
-        end
-
-        if IsMatch then
-            -- Tải code từ thư mục Games/ trên GitHub
-            local RawCode = FetchScript(ScriptInfo.FileName)
-            if RawCode then
-                local LoadedFunc, ErrorMsg = loadstring(RawCode)
-                if type(LoadedFunc) == "function" then
-                    return LoadedFunc() -- Chạy script tính năng!
-                else
-                    error("Lỗi cú pháp trong file game: " .. tostring(ErrorMsg))
-                end
-            end
-        end
-    end
-    
-    print("Script của bạn không hỗ trợ tựa game này!")
-end
-
-CheckAndRun()
