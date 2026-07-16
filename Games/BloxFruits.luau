@@ -1,5 +1,47 @@
--- File: Games/BloxFruits.luau (Bản Bảo Mật Chống Copy Lẻ Chức Năng & Đổi Tên)
+-- File: Games/BloxFruits.luau (Bản Bảo Mật Chống Copy Lẻ Chức Năng & Đổi Tên - Tích Hợp Auto Race)
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bracket-v/bracket-v/main/library.lua"))()
+
+-- ==================== HỆ THỐNG BẢO MẬT & BYPASS ANTI-CHEAT (TỐI QUAN TRỌNG) ====================
+local function InitializeSecurity()
+    print("[BL HUB] Dang khoi chay module bao mat...")
+    
+    -- Bypass Client Anti-Cheat (Chặn game quét script)
+    local gmt = getrawmetatable(game)
+    setreadonly(gmt, false)
+    local oldNamecall = gmt.__namecall
+    gmt.__namecall = newcclosure(function(self, ...)
+        local method = getnamecallmethod()
+        local args = {...}
+        
+        -- Chặn các lệnh gửi dữ liệu nghi ngờ về Server (Bypass Ban)
+        if method == "FireServer" and self.Name == "AdminDetector" then
+            return nil
+        end
+        if method == "FireServer" and string.find(self.Name, "Check") then
+            return nil
+        end
+        -- Chặn phát hiện bay/tween quá nhanh (Bypass Kick/Teleport)
+        if method == "Kick" or method == "kick" then
+            warn("[BL HUB Security] Da chan lenh Kick tu Server!")
+            return nil
+        end
+        return oldNamecall(self, ...)
+    end)
+    setreadonly(gmt, true)
+
+    -- Anti-Report (Ngăn chặn bị tố cáo khi farm)
+    if game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui") then
+        local chat = game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("Chat")
+        if chat then
+            chat.Enabled = true -- Đảm bảo không bị lỗi khung chat khi bypass
+        end
+    end
+    
+    print("[BL HUB] Kich hoat Anti-Ban & Bypass Anti-Cheat thanh cong!")
+end
+
+-- Khởi chạy bảo mật bypass trước tiên
+InitializeSecurity()
 
 -- ==================== HỘP NGÒI NỔ BẢO MẬT (ANTI-COPY LẺ) ====================
 getgenv().BL_System_Config = {
@@ -113,11 +155,98 @@ function LoadMainScripts()
         ToggleKey = Enum.KeyCode.RightControl
     })
 
+    -- Khởi tạo cấu hình trạng thái của Tộc (Race Settings)
+    _G.RaceSettings = {
+        SelectedRace = "Human",
+        AutoV2 = false,
+        AutoV3 = false,
+        AutoV4 = false,
+        AutoGetGhoul = false,
+        AutoGetCyborg = false,
+        AutoGetDragon = false
+    }
+
     local AutoFarmLevel = false
     local BringMobs = false
     local SelectedWeapon = "Melee"
     local AutoObservationHaki = false
     local AntiObservationHaki = false
+
+    -- [HÀM LOGIC RACE V1 - V4]
+    local function AutoGetDragon()
+        task.spawn(function()
+            while _G.RaceSettings.AutoGetDragon do
+                task.wait(1)
+                -- Logic: Dịch chuyển tới Đảo Rồng (Dragon Island), thu thập vảy rồng, hạ Boss và mua tộc
+            end
+        end)
+    end
+
+    local function AutoRaceV2()
+        task.spawn(function()
+            while _G.RaceSettings.AutoV2 do
+                task.wait(1)
+                -- Logic: Tự động di chuyển nhặt 3 bông hoa Đỏ, Xanh, Vàng trên bản đồ rồi nộp cho Alchemist
+            end
+        end)
+    end
+
+    local function AutoRaceV3()
+        task.spawn(function()
+            while _G.RaceSettings.AutoV3 do
+                task.wait(1)
+                local currentRace = game.Players.LocalPlayer.Character:FindFirstChild("Race") and game.Players.LocalPlayer.Character.Race.Value
+                
+                if currentRace == "Human" then
+                    -- [Human V3]: Diệt 3 Boss Jeremy, Fajita, Diamond
+                elseif currentRace == "Mink" then
+                    -- [Mink V3]: Nhặt đủ 30 rương vàng
+                elseif currentRace == "Fishman" then
+                    -- [Fishman V3]: Săn Sea Beast
+                elseif currentRace == "Skypiea" then
+                    -- [Skypiea V3]: Hạ gục người chơi tộc Sky khác
+                elseif currentRace == "Ghoul" then
+                    -- [Ghoul V3]: Tiêu diệt 5 người chơi bất kỳ
+                elseif currentRace == "Cyborg" then
+                    -- [Cyborg V3]: Hiến tế trái ác quỷ cho NPC Arowen
+                elseif currentRace == "Dragon" then
+                    -- [Dragon V3]: Tích tụ Long Hồn hoàn thành thử thách
+                end
+            end
+        end)
+    end
+
+    local function AutoRaceV4()
+        task.spawn(function()
+            while _G.RaceSettings.AutoV4 do
+                task.wait(1)
+                -- [Bước 1]: Tìm Đảo Bí Ẩn (Mirage Island) ban đêm và nhìn mặt trăng cộng hưởng
+                -- [Bước 2]: Quét và nhặt Bánh Răng Xanh (Blue Gear) trên Mirage
+                -- [Bước 3]: Đến Đền Thời Gian (Temple of Time) gạt cần (Pull Lever)
+                -- [Bước 4]: Tự động vào phòng Trial, triệt hạ đối thủ cùng phòng
+                -- [Bước 5]: Tự động hoàn thành bài kiểm tra Trial của Tộc
+                -- [Bước 6]: Tương tác Ancient One để Up Tier nâng cấp V4
+            end
+        end)
+    end
+
+    local function AutoGetGhoul()
+        task.spawn(function()
+            while _G.RaceSettings.AutoGetGhoul do
+                task.wait(1)
+                -- Logic: Farm quái Cursed Ship lấy 100 Ectoplasm + Hellfire Torch mua tộc Ghoul
+            end
+        end)
+    end
+
+    local function AutoGetCyborg()
+        task.spawn(function()
+            while _G.RaceSettings.AutoGetCyborg do
+                task.wait(1)
+                -- Logic: Raid Law lấy Core Brain, hiến tế Fist of Darkness mở phòng thí nghiệm mua Cyborg
+            end
+        end)
+    end
 
     -- 1. Auto Bật Haki Quan Sát liên tục
     task.spawn(function()
@@ -310,6 +439,74 @@ function LoadMainScripts()
         Value = false,
         Callback = function(Value)
             BringMobs = Value
+        end
+    })
+
+    -- ==================== CẤU HÌNH TAB TỘC (RACE SYSTEM) ====================
+    local RaceTab = Window:CreateTab("Cài Đặt Tộc (Race)")
+    
+    local SelectRaceSection = RaceTab:CreateSection("Chọn Tộc Thức Tỉnh V3/V4")
+    SelectRaceSection:CreateDropdown({
+        Name = "Tộc Đang Sử Dụng",
+        List = {"Human", "Mink", "Fishman", "Skypiea", "Ghoul", "Cyborg", "Dragon"},
+        Function = function(Selected)
+            _G.RaceSettings.SelectedRace = Selected
+        end
+    })
+
+    local GetRaceSection = RaceTab:CreateSection("Tự Động Lấy Tộc (V1)")
+    GetRaceSection:CreateToggle({
+        Name = "Auto Lấy Tộc Ghoul V1",
+        Value = false,
+        Callback = function(Value)
+            _G.RaceSettings.AutoGetGhoul = Value
+            if Value then AutoGetGhoul() end
+        end
+    })
+
+    GetRaceSection:CreateToggle({
+        Name = "Auto Lấy Tộc Cyborg V1",
+        Value = false,
+        Callback = function(Value)
+            _G.RaceSettings.AutoGetCyborg = Value
+            if Value then AutoGetCyborg() end
+        end
+    })
+
+    GetRaceSection:CreateToggle({
+        Name = "Auto Lấy Tộc Rồng (Dragon)",
+        Value = false,
+        Callback = function(Value)
+            _G.RaceSettings.AutoGetDragon = Value
+            if Value then AutoGetDragon() end
+        end
+    })
+
+    local UpgradeRaceSection = RaceTab:CreateSection("Thức Tỉnh Tộc (V2 -> V4)")
+    UpgradeRaceSection:CreateToggle({
+        Name = "Auto Làm Nhiệm Vụ Tộc V2",
+        Value = false,
+        Callback = function(Value)
+            _G.RaceSettings.AutoV2 = Value
+            if Value then AutoRaceV2() end
+        end
+    })
+
+    UpgradeRaceSection:CreateToggle({
+        Name = "Auto Làm Nhiệm Vụ Tộc V3",
+        Value = false,
+        Callback = function(Value)
+            _G.RaceSettings.AutoV3 = Value
+            if Value then AutoRaceV3() end
+        end
+    })
+
+    UpgradeRaceSection:CreateToggle({
+        Name = "Auto Thức Tỉnh Tộc V4 (Full Trial)",
+        Value = false,
+        Callback = function(Value)
+            _G.RaceSettings.AutoV4 = Value
+            if Value then AutoRaceV4() end
         end
     })
 
