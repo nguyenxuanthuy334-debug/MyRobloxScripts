@@ -1,6 +1,6 @@
 -- ========================================== BL HUB MANUAL KEY LOADER ==========================================
 -- Link trang web Lootlabs hoặc trang đích của bạn (Người chơi bấm Get Key sẽ nhảy ra đây)
-local KeyLink = "https://fancy-cendol-0740a8.netlify.app/" 
+local KeyLink = "https://link4m.net/igX5X"
 
 -- KHU VỰC ĐỔI KEY: Khi nào rảnh, bạn chỉ cần lên GitHub đổi chữ trong ngoặc kép này thành key mới là xong!
 local CurrentKey = "BLHUB-FREE-KEY-1707" 
