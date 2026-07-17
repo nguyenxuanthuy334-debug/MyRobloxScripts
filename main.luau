@@ -1,46 +1,32 @@
--- ==================== BL HUB PREMIUM LOADER (FILE: main.luau) ====================
-local KeyLink = "https://fancy-cendol-0740a8.netlify.app/"
-local SecuritySalt = 5839 
+-- ==================== BL HUB AUTO KEY LOADER (FILE: main.luau) ====================
+local KeyLink = "https://fancy-cendol-0740a8.netlify.app/" -- Trang web chứa Key hôm nay của bạn
+local AdminKey = "BLHUB-ADMIN-VIP-VMD-1102" -- Key vĩnh viễn của riêng bạn
 
--- ĐẶT KEY ADMIN VĨNH VIỄN CỦA BẠN TẠI ĐÂY (Có thể đổi tùy ý)
-local AdminKey = "BLHUB-ADMIN-VIP-VMD-1102" 
-
--- Hàm kiểm tra tính hợp lệ của Key
-local function VerifyKey(userKey)
-    -- 1. ƯU TIÊN KIỂM TRA KEY ADMIN VĨNH VIỄN
-    if userKey == AdminKey then
-        return true, "Xin chào Admin! Đang kích hoạt quyền truy cập vĩnh viễn...", "ADMIN"
-    end
-
-    -- 2. KIỂM TRA KEY THEO GÓI GIỜ CỦA KHÁCH
-    local prefix, duration, rawExpiry, hash = string.match(userKey, "^([^-]+)-([^-]+)-([^-]+)-([^-]+)$")
-    if not prefix or prefix ~= "BLHUB" then 
-        return false, "Mã Key sai định dạng!", nil 
-    end
-    
-    local expiryTime = tonumber(rawExpiry)
-    local keyHash = tonumber(hash)
-    if not expiryTime or not keyHash then 
-        return false, "Mã Key không hợp lệ!", nil 
-    end
-    
-    -- Kiểm tra Hash chống sửa đổi thời gian
-    local expectedHash = (expiryTime % 9999) + SecuritySalt
-    if keyHash ~= expectedHash then 
-        return false, "Phát hiện Key lậu (Fake Hash)!", nil 
-    end
-    
-    -- Kiểm tra hạn dùng
-    if os.time() > expiryTime then 
-        return false, "Key này đã hết hạn sử dụng!", nil 
-    end
-    
-    local timeLeft = expiryTime - os.time()
-    local hoursLeft = math.floor(timeLeft / 3600)
-    return true, string.format("Key hợp lệ! Gói: %s (%d Giờ)", duration, hoursLeft), duration
+-- Hàm tự động tạo mã Key của ngày hôm nay dựa trên ngày/tháng/năm thực tế
+local function GetTodayKey()
+    local date = os.date("!*t") -- Lấy thời gian UTC chuẩn quốc tế
+    -- Tạo một chuỗi duy nhất theo ngày: ví dụ hôm nay ngày 17/7/2026 -> mã hóa thành một dãy số bảo mật
+    local dayCode = (date.year * date.month * date.day) + 1102 
+    return "BLHUB-FREE-KEY-" .. tostring(dayCode)
 end
 
--- ==================== THIẾT KẾ GIAO DIỆN CHUYÊN NGHIỆP ====================
+-- Hàm kiểm tra Key người dùng nhập vào
+local function VerifyKey(userKey)
+    -- 1. Quyền lợi Admin của bạn
+    if userKey == AdminKey then
+        return true, "Xin chào Admin! Đang kích hoạt quyền truy cập vĩnh viễn..."
+    end
+
+    -- 2. Tự động so khớp với Key của ngày hôm nay
+    local todayKey = GetTodayKey()
+    if userKey == todayKey then
+        return true, "Xác nhận thành công! Key hôm nay hợp lệ."
+    else
+        return false, "Mã Key không chính xác hoặc đã hết hạn hôm nay!"
+    end
+end
+
+-- ==================== GIAO DIỆN LOADER ====================
 local TweenService = game:GetService("TweenService")
 local KeyUI = Instance.new("ScreenGui", game.CoreGui)
 KeyUI.Name = "BL_HUB_Loader"
@@ -66,7 +52,7 @@ Title.BackgroundTransparency = 1
 local Input = Instance.new("TextBox", MainFrame)
 Input.Size = UDim2.new(0.9, 0, 0.18, 0)
 Input.Position = UDim2.new(0.05, 0, 0.25, 0)
-Input.PlaceholderText = "Nhập mã Key kích hoạt tại đây..."
+Input.PlaceholderText = "Nhập mã Key tự động của hôm nay..."
 Input.Text = ""
 Input.TextColor3 = Color3.fromRGB(255, 255, 255)
 Input.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
@@ -85,7 +71,7 @@ local SubmitCorner = Instance.new("UICorner", Submit)
 local GetKeyBtn = Instance.new("TextButton", MainFrame)
 GetKeyBtn.Size = UDim2.new(0.42, 0, 0.18, 0)
 GetKeyBtn.Position = UDim2.new(0.53, 0, 0.48, 0)
-GetKeyBtn.Text = "LẤY KEY (FREE)"
+GetKeyBtn.Text = "LẤY KEY TỰ ĐỘNG"
 GetKeyBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
 GetKeyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 GetKeyBtn.Font = Enum.Font.SourceSansBold
@@ -94,7 +80,7 @@ local GetKeyCorner = Instance.new("UICorner", GetKeyBtn)
 local StatusLabel = Instance.new("TextLabel", MainFrame)
 StatusLabel.Size = UDim2.new(0.9, 0, 0.12, 0)
 StatusLabel.Position = UDim2.new(0.05, 0, 0.7, 0)
-StatusLabel.Text = "Vui lòng nhập Key để mở khóa tính năng"
+StatusLabel.Text = "Nhấn 'Lấy Key' để tự động nhận mã miễn phí"
 StatusLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
 StatusLabel.TextSize = 12
 StatusLabel.BackgroundTransparency = 1
@@ -110,21 +96,18 @@ LoadingBar.Size = UDim2.new(0, 0, 1, 0)
 LoadingBar.BackgroundColor3 = Color3.fromRGB(0, 255, 150)
 local LCorner2 = Instance.new("UICorner", LoadingBar)
 
--- Xử lý sự kiện
 Submit.MouseButton1Click:Connect(function()
-    local success, message, keyType = VerifyKey(Input.Text)
+    local success, message = VerifyKey(Input.Text)
     if success then
         StatusLabel.Text = message
         StatusLabel.TextColor3 = Color3.fromRGB(0, 255, 120)
         
-        -- Hiệu ứng chạy thanh Loading
         local tweenInfo = TweenInfo.new(1.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
         local tween = TweenService:Create(LoadingBar, tweenInfo, {Size = UDim2.new(1, 0, 1, 0)})
         tween:Play()
         
         tween.Completed:Connect(function()
             KeyUI:Destroy()
-            -- Mở khóa biến bảo mật để chạy file chính an toàn
             getgenv().BLHUB_LOADED = true
             loadstring(game:HttpGet("https://raw.githubusercontent.com/nguyenxuanthuy334-debug/MyRobloxScripts/main/Games/BloxFruits.luau"))()
         end)
@@ -137,7 +120,7 @@ end)
 
 GetKeyBtn.MouseButton1Click:Connect(function()
     setclipboard(KeyLink)
-    GetKeyBtn.Text = "Đã copy link web!"
+    GetKeyBtn.Text = "Đã Copy Link Lấy Key!"
     task.wait(1.5)
-    GetKeyBtn.Text = "LẤY KEY (FREE)"
+    GetKeyBtn.Text = "LẤY KEY TỰ ĐỘNG"
 end)
