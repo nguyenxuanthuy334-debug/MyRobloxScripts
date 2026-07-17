@@ -1,22 +1,41 @@
--- ========================================== BL HUB MANUAL KEY LOADER ==========================================
--- Link rút gọn Link4M của bạn
+-- ========================================== BL HUB MANUAL KEY LOADER (GỘP) ==========================================
+-- Link rút gọn Link4M của bạn (Người chơi bấm Get Key sẽ nhảy ra link này)
 local KeyLink = "https://link4m.net/igX5X" 
 
--- KHU VỰC ĐỔI KEY: Khi nào rảnh, bạn đổi mã trong ngoặc kép này để cập nhật key mới
+-- KHU VỰC ĐỔI KEY: Khi nào rảnh, bạn chỉ cần lên GitHub đổi chữ trong ngoặc kép này thành key mới là xong!
 local CurrentKey = "BLHUB-FREE-KEY-1707" 
-local AdminKey = "BLHUB-ADMIN-VIP-VMD-1102" 
+local AdminKey = "BLHUB-ADMIN-VIP-VMD-1102" -- Key vĩnh viễn của riêng bạn
 
--- Hàm tải file hack game chính (ĐÃ ĐƯỜNG DẪN VÀO THƯ MỤC Games/ ĐÚNG NHƯ ẢNH CỦA BẠN)
+-- ========================================== HÀM CHẠY MENU HACK CHÍNH ==========================================
+-- Khi nhập đúng Key, hàm này sẽ được gọi để kích hoạt menu hack Blox Fruits trực tiếp mà không cần tải file phụ
 local function LoadMainScripts()
-    local success, err = pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/nguyenxuanthuy334-debug/MyRobloxScripts/main/Games/BloxFruits.luau"))()
-    end)
-    if not success then
-        warn("Không thể tải file hack chính: " .. tostring(err))
-    end
+    print("BL HUB: Đã xác thực thành công và kích hoạt code game!")
+
+    -- Giao diện hack chính sử dụng thư viện Fluent
+    local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+    local Window = Fluent:CreateWindow({
+        Title = "★ BL HUB - Blox Fruits Ultimate ★",
+        SubTitle = "bởi Admin",
+        TabWidth = 160,
+        Size = Vector2.new(580, 460),
+        Acrylic = true,
+        Theme = "Dark"
+    })
+
+    local Tabs = {
+        Main = Window:AddTab({ Title = "Tự Động Farm", Icon = "home" })
+    }
+
+    Tabs.Main:AddToggle("AutoFarmToggle", {Title = "Tự Động Farm Quái (Auto Farm)", Default = false})
+
+    Fluent:Notify({
+        Title = "BL HUB",
+        Content = "Menu hack Blox Fruits đã được khởi chạy thành công!",
+        Duration = 5
+    })
 end
 
--- ========================================== GIAO DIỆN NHẬP KEY ==========================================
+-- ========================================== GIAO DIỆN XÁC THỰC NHẬP KEY ==========================================
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/mstudio45/BracketV2/main/library.lua"))()
 local KeyWindow = Library:CreateWindow({
     Name = "BL HUB - Xác Thực Hệ Thống",
@@ -41,7 +60,7 @@ KeySection:CreateTextBox({
 KeySection:CreateButton({
     Name = "Lấy Key (Get Key)",
     Callback = function()
-        setclipboard(KeyLink) -- Tự động copy link Link4M của bạn
+        setclipboard(KeyLink) -- Tự động copy link rút gọn Link4M của bạn
         Library:Notify({
             Title = "Thông Báo",
             Content = "Đã copy link cổng lấy key! Hãy dán ra trình duyệt để vượt link.",
@@ -53,6 +72,7 @@ KeySection:CreateButton({
 KeySection:CreateButton({
     Name = "Xác Nhận (Submit Key)",
     Callback = function()
+        -- Nếu người dùng nhập trúng CurrentKey hoặc AdminKey thì cho qua
         if InputKey == CurrentKey or InputKey == AdminKey then
             Library:Notify({
                 Title = "Chính Xác!",
@@ -61,7 +81,7 @@ KeySection:CreateButton({
             })
             task.wait(1)
             KeyWindow:Destroy()
-            LoadMainScripts() -- Kích hoạt tải file BloxFruits.luau trong thư mục Games
+            LoadMainScripts() -- Chạy trực tiếp menu hack ở phía trên
         else
             Library:Notify({
                 Title = "Thất Bại!",
